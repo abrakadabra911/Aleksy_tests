@@ -1,0 +1,1 @@
+java -jar D:\JavaRushTasks\out\artifacts\Aleksy_tests_jar\Aleksy_tests.jar
