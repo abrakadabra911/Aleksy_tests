@@ -27,7 +27,7 @@ public class Solution {
         }
 
         public void run() {
-            System.out.println("Mой поток запущен...");
+            System.out.println("Mой поток запущен...");//
 
             try {
                 for (int i = 5; i > 0; i--) {
