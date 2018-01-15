@@ -22,6 +22,7 @@ public class View extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setTitle("Sokoban");
+        loginDialog();
         setVisible(true);
     }
 
@@ -42,5 +43,31 @@ public class View extends JFrame {
         update();
         JOptionPane.showMessageDialog(this,  " level + "+level+" is completed, good job!\n Vitaly zarobil " + boxes + " dolarow");
         controller.startNextLevel();
+    }
+
+    public void clearDB() {
+        controller.clearDB();
+    }
+
+    public void loginDialog() {
+        JTextField xField = new JTextField(10);
+        JTextField yField = new JTextField(10);
+
+        JPanel myPanel = new JPanel();
+        myPanel.add(new JLabel("nickname:"));
+        myPanel.add(xField);
+        myPanel.add(Box.createHorizontalStrut(15)); // a spacer
+        myPanel.add(new JLabel("password:"));
+        myPanel.add(yField);
+
+        int result = JOptionPane.showConfirmDialog(this, myPanel,
+                "Please Enter nickname and password", JOptionPane.OK_CANCEL_OPTION);
+        if (result == JOptionPane.OK_OPTION) {
+            System.out.println("x value: " + xField.getText());
+            System.out.println("y value: " + yField.getText());
+        }
+        else {
+            System.exit(0);
+        }
     }
 }

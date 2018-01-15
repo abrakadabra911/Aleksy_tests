@@ -34,6 +34,10 @@ public class Model {
 
     private int currentLevel = 1;
 
+    private String nickname = "";
+
+    private String password = "";
+
     public String RESOURCE_PATH = getClass().getPackage().getName()
             .replaceAll("\\.", "/")
             .replace("Sokoban/model", "res/levels.txt");

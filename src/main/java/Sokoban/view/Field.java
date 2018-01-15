@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+
 public class Field extends JPanel {
     private View view;
     EventListener eventListener;
@@ -61,7 +63,10 @@ public class Field extends JPanel {
         this.eventListener = eventListener;
     }
 
-    public class KeyHandler extends KeyAdapter {
+       public class KeyHandler extends KeyAdapter {
+       private boolean isAltPressed = false;
+       private int buffer;
+
         @Override
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
@@ -78,11 +83,37 @@ public class Field extends JPanel {
                     eventListener.move(Direction.DOWN);
                     break;
                 case (KeyEvent.VK_R):
-                    int confirm = JOptionPane.showConfirmDialog(null, "restart level?");
+                    int confirm = JOptionPane.showConfirmDialog(view, "restart level?", null, YES_NO_OPTION);
                     if (confirm == 0) eventListener.restart();
                     break;
+                case (KeyEvent.VK_ALT):
+                    buffer = 0; //declared globally
+                    isAltPressed = true; } //declared globally
+            }
+        @Override
+        public void keyTyped (KeyEvent e){
+            if (isAltPressed)
+                buffer = e.getKeyChar();
+        }
+
+        @Override
+        public void keyReleased (KeyEvent e){
+            if (e.getKeyCode() == KeyEvent.VK_ALT){
+                isAltPressed = false;
+                if (buffer == 100) {
+                  int confirm = JOptionPane.showConfirmDialog(view, "Delete all users data?",null, YES_NO_OPTION);
+                   if(confirm == 0){
+                       view.clearDB();
+                       JOptionPane.showMessageDialog(view, "all data is deleted");
+                   }
+                }
             }
         }
+
+
+
+
+
     }
 }
 

@@ -7,9 +7,19 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/Accenture_tests" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/H2test" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/Learning_of_SQL" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/codility_test" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/hatching_of_figure" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/just_for_fun" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/testThreads" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/vitalik_ONP" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="h2-1.4.196" level="project" />
+    <orderEntry type="library" name="Maven: com.h2database:h2:1.4.196" level="project" />
   </component>
 </module>
