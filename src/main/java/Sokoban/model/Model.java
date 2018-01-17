@@ -68,7 +68,14 @@ public class Model {
 
     public void startNextLevel() {
         currentLevel++;
+
+
         restartLevel(currentLevel);
+    }
+
+    public void startLastLevel(int lastlevel) {
+        restartLevel(lastlevel);
+        currentLevel = lastlevel;
     }
 
     public void move(Direction direction) {

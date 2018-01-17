@@ -33,7 +33,7 @@ public class Field extends JPanel {
         Player player = view.getGameObjects().getPlayer();
         allGameObjects.remove(player);
         allGameObjects.removeAll(homes);
-   //     g.setColor(new Color(230, 220, 200));
+   //   g.setColor(new Color(230, 220, 200));
 
         BufferedImage background = null;
         String RESOURCE_PATH = getClass().getPackage().getName()
@@ -41,18 +41,18 @@ public class Field extends JPanel {
                 .replace("Sokoban/view", "pic/Background.png");
         try {
             background = ImageIO.read(getClass().getClassLoader().getResource(RESOURCE_PATH));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-
      //   g.fillRect(0, 0, 540, 580);
         g.drawImage(background,0,0,null);
-        g.setColor(Color.black);
+        g.setColor(new Color(112, 146, 190));
         g.setFont(new Font("MyFont", Font.ITALIC, 12));
         // logo
-        g.drawString("The game was created by Aliaksei Zayats", 200, 538);
-        g.drawString("using Maven,MVC", 200, 550);
+        g.drawString("The game was created by Aliaksei Zayats", 220, 538);
+        g.drawString("using Maven,MVC", 220, 550);
+        g.drawString("user " + , 50, 538);
         for (GameObject object : allGameObjects) object.draw(g);
         for (Home home : homes) home.draw(g); // we need to have homes draw above boxes
         player.draw(g);// we need to have player draw above homes
@@ -103,7 +103,7 @@ public class Field extends JPanel {
                 if (buffer == 100) {
                   int confirm = JOptionPane.showConfirmDialog(view, "Delete all users data?",null, YES_NO_OPTION);
                    if(confirm == 0){
-                       view.clearDB();
+                       view.adminClearDB();
                        JOptionPane.showMessageDialog(view, "all data is deleted");
                    }
                 }

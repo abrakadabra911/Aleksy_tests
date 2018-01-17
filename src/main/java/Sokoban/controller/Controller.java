@@ -6,12 +6,13 @@ import Sokoban.model.GameObjects;
 import Sokoban.model.Model;
 import Sokoban.view.View;
 
+import javax.swing.*;
 import java.util.logging.Level;
 
-public class Controller implements EventListener{
+public class Controller implements EventListener {
     private View view;
     private Model model;
-    public ConnectH2 H2database;
+    private ConnectH2 H2database;
 
     public Controller() {
         H2database = new ConnectH2();
@@ -26,17 +27,16 @@ public class Controller implements EventListener{
     public static void main(String[] args) {
         try {
             Controller controller = new Controller();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Model.logger.log(Level.WARNING, e + e.getStackTrace().toString() + " - some error");
         }
     }
 
     @Override
     public void move(Direction direction) {
-       model.move(direction);
-       view.update();
-}
+        model.move(direction);
+        view.update();
+    }
 
     @Override
     public void restart() {
@@ -59,5 +59,24 @@ public class Controller implements EventListener{
         return model.getGameObjects();
     }
 
-    public void clearDB() {H2database.clearDB();}
+    public void adminClearDB() {
+        H2database.adminClearDB();
+    }
+
+    public int getLastLevel(String nickname, String password) {
+        int level = H2database.getLastLevel(nickname, password);
+        if(level!=-1) model.startLastLevel(level);
+        else {
+            JOptionPane.showMessageDialog(view, "invalid nickname or password");
+        }
+       return level;
+    }
+
+    public boolean createUser(String user, String password) {
+        return H2database.createUser(user, password);
+    }
+
+    public boolean updateUser(String lastLevel) {
+        return
+    }
 }

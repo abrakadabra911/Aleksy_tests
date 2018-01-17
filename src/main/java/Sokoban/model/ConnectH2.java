@@ -17,13 +17,12 @@ public class ConnectH2 {
         try {
             Class.forName(DB_DRIVER).newInstance();
             testDatabase();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             try {
                 conn.close();
+            } catch (SQLException s) {
             }
-            catch (SQLException s){}
         }
     }
 
@@ -33,76 +32,84 @@ public class ConnectH2 {
             Statement st = conn.createStatement();
 
             String CreateQuery = "CREATE TABLE IF NOT EXISTS MAIN_TABLE(" +
-                    " NICKNAME VARCHAR(50) NOT NULL," +
+                    " USER VARCHAR(50) NOT NULL," +
                     " PASSWORD VARCHAR(50) NOT NULL," +
                     " LAST_LEVEL VARCHAR(50) NOT NULL)";
 
             st.execute(CreateQuery);
-        //    st.execute("INSERT INTO MAIN_TABLE (NICKNAME, PASSWORD, LAST_LEVEL) VALUES ('alex','alex','10')");
+            //    st.execute("INSERT INTO MAIN_TABLE (USER, PASSWORD, LAST_LEVEL) VALUES ('alex','alex','10')");
             ResultSet result = st.executeQuery("SELECT * FROM MAIN_TABLE");
             while (result.next()) {
-                String name = result.getString("NICKNAME");
-                System.out.println(result.getString("PASSWORD")+" "+name);
+                System.out.println(
+                        result.getString("USER") +" "+
+                        result.getString("PASSWORD") +" "+
+                        result.getString("LAST_LEVEL"));
             }
             st.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 conn.close();
+            } catch (SQLException s) {
             }
-            catch (SQLException s){}
         }
     }
 
-    // returns last level or "-1" if nickname or password does not exists
-    public int getLastLevel(String nickname, String password) {
-        String lastLevel="-1";
+    // returns last level or "-1" if user or password does not exists
+    public int getLastLevel(String user, String password) {
+        String lastLevel = "-1";
         try {
             conn = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
             Statement st = conn.createStatement();
-            String LevelQuery = "SELECT LAST_LEVEL FROM MAIN_TABLE WHERE NICKNAME='" + nickname + "' AND PASSWORD='" + password+"'";
+            String LevelQuery = "SELECT LAST_LEVEL FROM MAIN_TABLE WHERE USER='" + user + "' AND PASSWORD='" + password + "'";
             ResultSet rs = st.executeQuery(LevelQuery);
             while (rs.next()) {
                 lastLevel = rs.getString("LAST_LEVEL");
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 conn.close();
+            } catch (SQLException s) {
             }
-            catch (SQLException s){}
         }
         return Integer.parseInt(lastLevel);
     }
 
-    public boolean createUser() {
+    public boolean createUser(String user, String password) {
         boolean created = false;
         try {
             conn = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
             Statement st = conn.createStatement();
 
-            created = st.execute("INSERT INTO MAIN_TABLE (NICKNAME, PASSWORD, LAST_LEVEL) VALUES ('alex','alex','10')");
+            ResultSet result = st.executeQuery("SELECT USER FROM MAIN_TABLE WHERE USER='" + user + "'");
+            if (!result.next()) {
+                st.execute("INSERT INTO MAIN_TABLE (USER, PASSWORD, LAST_LEVEL) VALUES ('"+user+"', '"+password+"', '1')");
+                created = true;
+            }
             st.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 conn.close();
+            } catch (SQLException s) {
             }
-            catch (SQLException s){}
         }
         return created;
     }
 
-    public void clearDB() {
-        boolean created = false;
+    public void updateUser(String user, String password, String level) {
+
+
+
+    }
+
+    public void adminClearDB() {
         try {
             conn = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
             Statement st = conn.createStatement();
@@ -110,14 +117,11 @@ public class ConnectH2 {
             st.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 conn.close();
+            } catch (SQLException s) {
             }
-            catch (SQLException s){}
         }
     }
-
-
 }
