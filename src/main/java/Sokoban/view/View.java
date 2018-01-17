@@ -6,6 +6,7 @@ import Sokoban.model.GameObjects;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class View extends JFrame {
     private Controller controller;
@@ -14,18 +15,33 @@ public class View extends JFrame {
 
     public View(Controller controller) {
         this.controller = controller;
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e) {
+
+        }
     }
 
     public void init() {
+        loginDialog();
         field = new Field(this);
         add(field);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(540, 580);
+        setSize(540, 610);
         setResizable(false);
         setLocationRelativeTo(null);
         setTitle("Sokoban");
-        loginDialog();
+        initMenuBar();
         setVisible(true);
+    }
+
+    public String getUser() {
+        return controller.getUser();
+    }
+
+    public int getCurrentLevel() {
+        return controller.getCurrentLevel();
     }
 
     public void setEventListener(EventListener eventListener) {
@@ -43,7 +59,8 @@ public class View extends JFrame {
     public void completed(int level) {
         int boxes = getGameObjects().getBoxes().size();
         update();
-        JOptionPane.showMessageDialog(this, " level + " + level + " is completed, good job!\n Vitaly zarobil " + boxes + " dolarow");
+        JOptionPane.showMessageDialog(this, " level " + level + " is completed, good job!\n" +
+                " Vitaly zarobil " + boxes + " dolarow");
         controller.startNextLevel();
     }
 
@@ -67,11 +84,12 @@ public class View extends JFrame {
 
         while (level == -1) {
             String[] options = {"login", "new User", "exit"};
-            int result = JOptionPane.showOptionDialog(this, myPanel,"Sign in - Sokoban",
+            int result = JOptionPane.showOptionDialog(this, myPanel, "Sign in - Sokoban",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
             switch (result) {
                 case 0:
-                    level = controller.getLastLevel(xField.getText(), yField.getText()); break;
+                    level = controller.getLastLevel(xField.getText(), yField.getText());
+                    break;
                 case 1:
                     newUserDialog();
                     level = 1;
@@ -100,12 +118,52 @@ public class View extends JFrame {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         switch (result) {
             case 0:
-                if(controller.createUser(xField.getText(), yField.getText()))
+                if (xField.getText().isEmpty() || yField.getText().isEmpty())
+                    JOptionPane.showMessageDialog(this, "type user and password");
+                else if (controller.createUser(xField.getText(), yField.getText()))
                     JOptionPane.showMessageDialog(this, "successful");
-                else {JOptionPane.showMessageDialog(this, "user already exists!");}
+                else {
+                    JOptionPane.showMessageDialog(this, "user already exists!");
+                }
                 break;
             case 1:
                 return;
         }
     }
+
+    public void initMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        initHelpMenu(menuBar);
+        getContentPane().add(menuBar, BorderLayout.NORTH);
+    }
+
+    public void initHelpMenu(JMenuBar menuBar) {
+        JMenu helpMenu = new JMenu("Help");
+        menuBar.add(helpMenu);
+
+        JMenuItem menuItemAbout = new JMenuItem(new AbstractAction("Rules") {
+            public void actionPerformed(ActionEvent ae) {
+                JOptionPane.showMessageDialog(null, "abooout");
+            }
+        });
+        menuItemAbout.setText("About");
+        helpMenu.add(menuItemAbout);
+
+        JMenuItem menuItemRules = new JMenuItem(new AbstractAction("Rules") {
+            public void actionPerformed(ActionEvent ae) {
+                JOptionPane.showMessageDialog(null, "ruuuulezzz");
+            }
+        });
+        menuItemRules.setText("Rules");
+        helpMenu.add(menuItemRules);
+
+        JMenuItem menuItemRestart = new JMenuItem(new AbstractAction("Restart (R)") {
+            public void actionPerformed(ActionEvent ae) {
+               field.restartLevel();
+            }
+        });
+        menuItemRestart.setText("Restart (R)");
+        helpMenu.add(menuItemRestart);
+    }
+
 }

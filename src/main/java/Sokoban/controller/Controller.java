@@ -10,12 +10,12 @@ import javax.swing.*;
 import java.util.logging.Level;
 
 public class Controller implements EventListener {
+
     private View view;
+
     private Model model;
-    private ConnectH2 H2database;
 
     public Controller() {
-        H2database = new ConnectH2();
         this.view = new View(this);
         this.model = new Model();
         this.model.restart();
@@ -60,23 +60,22 @@ public class Controller implements EventListener {
     }
 
     public void adminClearDB() {
-        H2database.adminClearDB();
+        model.adminClearDB();
     }
 
     public int getLastLevel(String nickname, String password) {
-        int level = H2database.getLastLevel(nickname, password);
-        if(level!=-1) model.startLastLevel(level);
-        else {
-            JOptionPane.showMessageDialog(view, "invalid nickname or password");
-        }
-       return level;
+       return model.getLastLevel(nickname, password);
     }
 
     public boolean createUser(String user, String password) {
-        return H2database.createUser(user, password);
+        return model.createUser(user, password);
     }
 
-    public boolean updateUser(String lastLevel) {
-        return
+    public String getUser() {
+        return model.getUser();
+    }
+
+    public int getCurrentLevel() {
+        return model.getCurrentLevel();
     }
 }

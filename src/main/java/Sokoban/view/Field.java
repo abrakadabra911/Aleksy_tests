@@ -26,6 +26,11 @@ public class Field extends JPanel {
         setFocusable(true);
     }
 
+    public void restartLevel() {
+        int confirm = JOptionPane.showConfirmDialog(view, "restart level?", null, YES_NO_OPTION);
+        if (confirm == 0) eventListener.restart();
+    }
+
     @Override
     public void paint(Graphics g) {
         Set<GameObject> allGameObjects = view.getGameObjects().getAll();
@@ -33,7 +38,7 @@ public class Field extends JPanel {
         Player player = view.getGameObjects().getPlayer();
         allGameObjects.remove(player);
         allGameObjects.removeAll(homes);
-   //   g.setColor(new Color(230, 220, 200));
+        //   g.setColor(new Color(230, 220, 200));
 
         BufferedImage background = null;
         String RESOURCE_PATH = getClass().getPackage().getName()
@@ -45,14 +50,15 @@ public class Field extends JPanel {
             e.printStackTrace();
         }
 
-     //   g.fillRect(0, 0, 540, 580);
-        g.drawImage(background,0,0,null);
+        //   g.fillRect(0, 0, 540, 580);
+        g.drawImage(background, 0, 0, null);
         g.setColor(new Color(112, 146, 190));
         g.setFont(new Font("MyFont", Font.ITALIC, 12));
         // logo
-        g.drawString("The game was created by Aliaksei Zayats", 220, 538);
-        g.drawString("using Maven,MVC", 220, 550);
-        g.drawString("user " + , 50, 538);
+        g.drawString("The game was created by Aliaksei Zayats", 280, 538);
+        g.drawString("using Maven,MVC", 280, 550);
+        g.drawString(" user: " + view.getUser(), 5, 538);
+        g.drawString("level: " + view.getCurrentLevel(), 5, 550);
         for (GameObject object : allGameObjects) object.draw(g);
         for (Home home : homes) home.draw(g); // we need to have homes draw above boxes
         player.draw(g);// we need to have player draw above homes
@@ -63,9 +69,9 @@ public class Field extends JPanel {
         this.eventListener = eventListener;
     }
 
-       public class KeyHandler extends KeyAdapter {
-       private boolean isAltPressed = false;
-       private int buffer;
+    public class KeyHandler extends KeyAdapter {
+        private boolean isAltPressed = false;
+        private int buffer;
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -83,37 +89,33 @@ public class Field extends JPanel {
                     eventListener.move(Direction.DOWN);
                     break;
                 case (KeyEvent.VK_R):
-                    int confirm = JOptionPane.showConfirmDialog(view, "restart level?", null, YES_NO_OPTION);
-                    if (confirm == 0) eventListener.restart();
+                    restartLevel();
                     break;
                 case (KeyEvent.VK_ALT):
                     buffer = 0; //declared globally
-                    isAltPressed = true; } //declared globally
-            }
+                    isAltPressed = true;
+            } //declared globally
+        }
+
         @Override
-        public void keyTyped (KeyEvent e){
+        public void keyTyped(KeyEvent e) {
             if (isAltPressed)
                 buffer = e.getKeyChar();
         }
 
         @Override
-        public void keyReleased (KeyEvent e){
-            if (e.getKeyCode() == KeyEvent.VK_ALT){
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ALT) {
                 isAltPressed = false;
                 if (buffer == 100) {
-                  int confirm = JOptionPane.showConfirmDialog(view, "Delete all users data?",null, YES_NO_OPTION);
-                   if(confirm == 0){
-                       view.adminClearDB();
-                       JOptionPane.showMessageDialog(view, "all data is deleted");
-                   }
+                    int confirm = JOptionPane.showConfirmDialog(view, "Delete all users data?", null, YES_NO_OPTION);
+                    if (confirm == 0) {
+                        view.adminClearDB();
+                        JOptionPane.showMessageDialog(view, "all data is deleted");
+                    }
                 }
             }
         }
-
-
-
-
-
     }
 }
 

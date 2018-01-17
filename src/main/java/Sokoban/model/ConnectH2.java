@@ -37,7 +37,6 @@ public class ConnectH2 {
                     " LAST_LEVEL VARCHAR(50) NOT NULL)";
 
             st.execute(CreateQuery);
-            //    st.execute("INSERT INTO MAIN_TABLE (USER, PASSWORD, LAST_LEVEL) VALUES ('alex','alex','10')");
             ResultSet result = st.executeQuery("SELECT * FROM MAIN_TABLE");
             while (result.next()) {
                 System.out.println(
@@ -104,9 +103,31 @@ public class ConnectH2 {
     }
 
     public void updateUser(String user, String password, String level) {
+        try {
+            conn = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+            Statement st = conn.createStatement();
 
+            ResultSet result = st.executeQuery("SELECT USER FROM MAIN_TABLE WHERE USER='" + user + "'");
+            if (result.next()) {
+                st.execute("UPDATE MAIN_TABLE SET LAST_LEVEL = '"+level+"' WHERE USER = '"+user+"' AND PASSWORD = '"+password+"'");
+            }
+            result = st.executeQuery("SELECT * FROM MAIN_TABLE");
+            while (result.next()) {
+                System.out.println(
+                        result.getString("USER") +" "+
+                                result.getString("PASSWORD") +" "+
+                                result.getString("LAST_LEVEL"));
+            }
+            st.close();
 
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException s) {
+            }
+        }
     }
 
     public void adminClearDB() {
