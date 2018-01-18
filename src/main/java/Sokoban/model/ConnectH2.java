@@ -7,8 +7,7 @@ import java.sql.DriverManager;
 public class ConnectH2 {
     public static Connection conn;
     private static final String DB_DRIVER = "org.h2.Driver";
-    private static final String DB_TESTCONNECTION = "jdbc:h2:~/test";
-    private static final String DB_CONNECTION = "jdbc:h2:file:./src/main/java/Sokoban/sokobanDB";
+    private static final String DB_CONNECTION = "jdbc:h2:~/sokobanDB";
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "";
 

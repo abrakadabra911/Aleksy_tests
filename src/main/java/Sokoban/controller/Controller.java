@@ -26,7 +26,7 @@ public class Controller implements EventListener {
         try {
             Controller controller = new Controller();
         } catch (Exception e) {
-            Model.logger.log(Level.WARNING, e + e.getStackTrace().toString() + " - some error");
+            Model.logger.log(Level.WARNING, e + e.getStackTrace().toString() + " - unhandled error");
         }
     }
 

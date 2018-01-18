@@ -54,7 +54,7 @@ public class Field extends JPanel {
         g.setFont(new Font("MyFont", Font.ITALIC, 12));
         // logo
         g.drawString("The game was created by Aliaksei Zayats", 280, 538);
-        g.drawString("version 1.1.2 - BETA", 280, 550);
+        g.drawString("version 1.1.3 - BETA", 280, 550);
         g.drawString(" user: " + view.getUser(), 5, 538);
         g.drawString("level: " + view.getCurrentLevel(), 5, 550);
         for (GameObject object : allGameObjects) object.draw(g);
@@ -90,9 +90,9 @@ public class Field extends JPanel {
                     restartLevel();
                     break;
                 case (KeyEvent.VK_ALT):
-                    buffer = 0; //declared globally
+                    buffer = 0;
                     isAltPressed = true;
-            } //declared globally
+            }
         }
 
         @Override
@@ -106,10 +106,26 @@ public class Field extends JPanel {
             if (e.getKeyCode() == KeyEvent.VK_ALT) {
                 isAltPressed = false;
                 if (buffer == 100) {
-                    int confirm = JOptionPane.showConfirmDialog(view, "Delete all users data?", null, YES_NO_OPTION);
-                    if (confirm == 0) {
-                        view.adminClearDB();
-                        JOptionPane.showMessageDialog(view, "all data is deleted");
+                    if(view.getUser().equals("admin")) {
+                        int confirm = JOptionPane.showConfirmDialog(view, "Delete all users history?", "WARNING!!!", YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                        if (confirm == 0) {
+                            view.adminClearDB();
+                            JOptionPane.showMessageDialog(view, "all data is deleted");
+                        }
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(view, "access is denied !!", "", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+           if (e.getKeyCode() == KeyEvent.VK_ALT) {
+                isAltPressed = false;
+                if (buffer == 110) {
+                    if(view.getUser().equals("admin")) {
+                      eventListener.startNextLevel();
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(view, "access is denied !!", "", JOptionPane.WARNING_MESSAGE);
                     }
                 }
             }

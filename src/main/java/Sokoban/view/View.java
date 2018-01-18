@@ -3,6 +3,7 @@ package Sokoban.view;
 import Sokoban.controller.Controller;
 import Sokoban.controller.EventListener;
 import Sokoban.model.GameObjects;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +13,9 @@ public class View extends JFrame {
     private Controller controller;
     private Field field;
     private int level;
-    private  String RESOURCE_PATH =  getClass().getPackage().getName()  //  path to IconImage;
+    private String RESOURCE_PATH = getClass().getPackage().getName()  //  path to IconImage;
             .replaceAll("\\.", "/")
-            .replace("Sokoban/model", "pic/icon.ico");
+            .replace("Sokoban/view", "pic/icon.png");
 
     public View(Controller controller) {
         this.controller = controller;
@@ -24,8 +25,7 @@ public class View extends JFrame {
             final URL url = getClass().getClassLoader().getResource(RESOURCE_PATH);
             ImageIcon image = new ImageIcon(url);
             setIconImage(image.getImage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
         }
     }
 
@@ -97,8 +97,7 @@ public class View extends JFrame {
                     level = controller.getLastLevel(xField.getText(), yField.getText());
                     break;
                 case 1:
-                    newUserDialog();
-                    level = 1;
+                    if (newUserDialog()) level = 1;
                     break;
                 default:
                     System.exit(0);
@@ -106,7 +105,7 @@ public class View extends JFrame {
         }
     }
 
-    public void newUserDialog() {
+    public boolean newUserDialog() {
         JTextField xField = new JTextField(10);
         JTextField yField = new JPasswordField(10);  // hidden characters
 
@@ -126,15 +125,18 @@ public class View extends JFrame {
             case 0:
                 if (xField.getText().isEmpty() || yField.getText().isEmpty())
                     JOptionPane.showMessageDialog(this, "type user and password");
-                else if (controller.createUser(xField.getText(), yField.getText()))
+                else if (controller.createUser(xField.getText(), yField.getText())) {
                     JOptionPane.showMessageDialog(this, "successful");
-                else {
+                    return true;
+                } else {
                     JOptionPane.showMessageDialog(this, "user already exists!");
+                    return false;
                 }
                 break;
             case 1:
-                return;
+                return false;
         }
+        return false;
     }
 
     public void initMenuBar() {
@@ -164,9 +166,11 @@ public class View extends JFrame {
         JMenuItem menuItemRules = new JMenuItem(new AbstractAction("Rules") {
             public void actionPerformed(ActionEvent ae) {
                 JOptionPane.showMessageDialog(null,
-                        "2028 year.. Vitaly is just a regular everyday normal developer. \nHe just lost a job, now he is searching for " +
-                                "a job in much more perspective scope - civil engineering. His first \nrecruitment task is" +
-                                " moving all the wooden boxes to marked places.", "Rules", JOptionPane.INFORMATION_MESSAGE);
+                        "2028 year.. Vitaly is just a regular everyday normal developer. " +
+                                "\nHe just lost a job, now he is searching for a job in much more " +
+                                "\nperspective scope - civil engineering. His first recruitment task is" +
+                                "\nmoving all the wooden boxes to marked places." +
+                                "\nAlt+D = delete user history(admin only)", "Rules", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         menuItemRules.setText("Rules");
@@ -174,7 +178,7 @@ public class View extends JFrame {
 
         JMenuItem menuItemRestart = new JMenuItem(new AbstractAction("Restart (R)") {
             public void actionPerformed(ActionEvent ae) {
-               field.restartLevel();
+                field.restartLevel();
             }
         });
         menuItemRestart.setText("Restart (R)");

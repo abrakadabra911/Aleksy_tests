@@ -167,4 +167,5 @@ public class Model {
     public void updateUser(String lastLevel) {
         H2database.updateUser(user, password, lastLevel);
     }
+
 }
