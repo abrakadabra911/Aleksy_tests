@@ -3,7 +3,6 @@ package Sokoban.model;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.net.URL;
 
 public class Wall extends CollisionObject {

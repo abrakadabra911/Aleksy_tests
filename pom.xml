@@ -5,7 +5,7 @@
     <groupId>MyMavenProject_groupID</groupId>
     <artifactId>Sokoban</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.1</version>
+    <version>1.1.2-BETA</version>
 
     <build>
         <plugins>

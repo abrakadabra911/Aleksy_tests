@@ -3,23 +3,29 @@ package Sokoban.view;
 import Sokoban.controller.Controller;
 import Sokoban.controller.EventListener;
 import Sokoban.model.GameObjects;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 
 public class View extends JFrame {
     private Controller controller;
     private Field field;
     private int level;
+    private  String RESOURCE_PATH =  getClass().getPackage().getName()  //  path to IconImage;
+            .replaceAll("\\.", "/")
+            .replace("Sokoban/model", "pic/icon.ico");
 
     public View(Controller controller) {
         this.controller = controller;
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            //  setIconImage(image);
+            final URL url = getClass().getClassLoader().getResource(RESOURCE_PATH);
+            ImageIcon image = new ImageIcon(url);
+            setIconImage(image.getImage());
         }
         catch (Exception e) {
-
         }
     }
 
@@ -60,7 +66,7 @@ public class View extends JFrame {
         int boxes = getGameObjects().getBoxes().size();
         update();
         JOptionPane.showMessageDialog(this, " level " + level + " is completed, good job!\n" +
-                " Vitaly zarobil " + boxes + " dolarow");
+                " Vitaly just moved " + boxes + " boxes");
         controller.startNextLevel();
     }
 
@@ -141,9 +147,15 @@ public class View extends JFrame {
         JMenu helpMenu = new JMenu("Help");
         menuBar.add(helpMenu);
 
-        JMenuItem menuItemAbout = new JMenuItem(new AbstractAction("Rules") {
+        JMenuItem menuItemAbout = new JMenuItem(new AbstractAction("About") {
             public void actionPerformed(ActionEvent ae) {
-                JOptionPane.showMessageDialog(null, "abooout");
+
+                JOptionPane.showMessageDialog(null,
+                        "This Sokoban-game was created by Aliaksei Zayats, using some java " +
+                                "\ntechnologies and patterns like: Maven, MVC, embedded database H2 (for game progress)." +
+                                "\nAll the source code you can find at: " +
+                                "\n<html><a href=\"https://github.com/abrakadabra911/Aleksy_tests/tree/master/src/main/java/Sokoban\">https://github.com/abrakadabra911/Aleksy_tests/tree/master/src/main/java/Sokoban</a></html>" +
+                                "\nemail: aliaksei.zayats@gmail.com", "About", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         menuItemAbout.setText("About");
@@ -151,7 +163,10 @@ public class View extends JFrame {
 
         JMenuItem menuItemRules = new JMenuItem(new AbstractAction("Rules") {
             public void actionPerformed(ActionEvent ae) {
-                JOptionPane.showMessageDialog(null, "ruuuulezzz");
+                JOptionPane.showMessageDialog(null,
+                        "2028 year.. Vitaly is just a regular everyday normal developer. \nHe just lost a job, now he is searching for " +
+                                "a job in much more perspective scope - civil engineering. His first \nrecruitment task is" +
+                                " moving all the wooden boxes to marked places.", "Rules", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         menuItemRules.setText("Rules");

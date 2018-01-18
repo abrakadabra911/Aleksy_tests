@@ -1,17 +1,9 @@
 package Sokoban.model;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.URI;
 import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Box extends CollisionObject implements Movable{
     private static BufferedImage image;

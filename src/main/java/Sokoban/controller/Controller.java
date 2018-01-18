@@ -1,12 +1,10 @@
 package Sokoban.controller;
 
-import Sokoban.model.ConnectH2;
 import Sokoban.model.Direction;
 import Sokoban.model.GameObjects;
 import Sokoban.model.Model;
 import Sokoban.view.View;
 
-import javax.swing.*;
 import java.util.logging.Level;
 
 public class Controller implements EventListener {

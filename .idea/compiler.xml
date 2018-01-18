@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Aleksy_tests" />
+        <module name="Sokoban" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Aleksy_tests" target="1.7" />
+      <module name="Sokoban" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

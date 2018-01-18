@@ -9,8 +9,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Set;
 
 import static javax.swing.JOptionPane.YES_NO_OPTION;
@@ -56,7 +54,7 @@ public class Field extends JPanel {
         g.setFont(new Font("MyFont", Font.ITALIC, 12));
         // logo
         g.drawString("The game was created by Aliaksei Zayats", 280, 538);
-        g.drawString("using Maven,MVC", 280, 550);
+        g.drawString("version 1.1.2 - BETA", 280, 550);
         g.drawString(" user: " + view.getUser(), 5, 538);
         g.drawString("level: " + view.getCurrentLevel(), 5, 550);
         for (GameObject object : allGameObjects) object.draw(g);
